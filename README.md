@@ -1,6 +1,6 @@
-# Base Node/Webpack/React/Express Application
+# Chat App
 
-This is a base template for a simple service using Node/Webpack/React/Express. Designed to be extremely simple.
+A simple chat application using websockets
 
 ## Installation
 
@@ -20,14 +20,9 @@ The easiest way to develop this application is by running 2 processes:
 npm i
 ```
 
-* In one terminal start webpack with a watch (so changes in the UI are live-updated):
+* Then start the development environment
 ```
-npm run build-assets:watch
-```
-
-* In the second terminal window start the server:
-```
-npm run server:watch
+npm run dev
 ```
 
 ## License
