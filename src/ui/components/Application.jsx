@@ -1,11 +1,9 @@
 import React from 'react';
+import ChatBox from './ChatBox.jsx';
 
 const Application = ({ text }) => {
   return (
-    <div>
-      <p>Hello World!</p>
-      <p onClick={() => console.log('JS working')}>{text}</p>
-    </div>
+    <ChatBox />
   )
 };
 
