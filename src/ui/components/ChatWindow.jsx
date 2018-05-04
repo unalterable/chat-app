@@ -10,7 +10,7 @@ class ChatWindow extends React.Component {
     const Message = ({ text, sender }) => (
       <div style={{ width: '100%' }}>
         <span style={{ width: '20%' }}>
-          {sender === this.props.chatId ? 'Me: ' : `${sender}: `}
+          {sender === this.props.userId ? 'Me: ' : `${sender}: `}
         </span>
         <span style={{ width: '80%' }}>
           {text}
@@ -20,7 +20,10 @@ class ChatWindow extends React.Component {
 
     return (
       <div style={{ height: '300px', width: '300px', border: '1px solid #000' }}>
-        <div style={{ height: '270px', width: '100%' }}>
+        <div style={{ height: '30px', width: '100%' }}>
+          User: {this.props.userId}
+        </div>
+        <div style={{ height: '240px', width: '100%' }}>
           { this.props.messages.map((message, i) => (<Message key={i} { ...message } />)) }
         </div>
         <div style={{ height: '30px', width: '100%' }}>

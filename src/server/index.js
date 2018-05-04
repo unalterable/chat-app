@@ -2,4 +2,4 @@ require('babel-register')({
   presets: ['es2015', 'react'],
 });
 
-require('./routes.js');
+require('./server.js')().catch(console.error)

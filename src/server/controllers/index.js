@@ -2,7 +2,7 @@ import { renderToString } from 'react-dom/server';
 import App from '../../ui/components/Application.jsx';
 import html from '../../ui/layout/basic.js';
 
-module.exports = {
+module.exports = () => ({
   async showIndex(req, res, next) {
     try {
       const title = 'Chat App';
@@ -13,4 +13,4 @@ module.exports = {
       next(e);
     }
   },
-}
+});

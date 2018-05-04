@@ -1,25 +1,31 @@
 import React from 'react';
+import _omit from 'lodash/omit'
 import socketIO from 'socket.io-client';
 import ChatWindow from './ChatWindow.jsx';
+
+const initialState = { userId: '', roomId: '', messages: [], socket: null };
 
 class Chat extends React.Component {
   constructor (props) {
     super(props)
-    this.state = {
-      chatId: '',
-    };
+    this.state = initialState;
   }
 
   login() {
-    const socket = socketIO('ws://localhost:3000/');
-    socket.on('chat-message', msg => this.handleNewMessage(msg));
-    this.setState({
-      socket,
-      messages: [],
+    const socket = socketIO('ws://localhost:3000/', {
+      query: `roomId=${this.state.roomId}&userId=${this.state.userId}`,
     });
+    socket.on('connect', () => {
+      if (!this.state.socket){
+        this.setState({ socket });
+        socket.on('disconnect', () => this.setState(_omit(initialState, 'userId')));
+        socket.on('chat-message-to-clients', msg => this.handleNewMessage(msg));
+      }
+    })
   }
 
   handleNewMessage(message) {
+    console.log('message', message)
     this.setState({ messages: this.state.messages.concat(message) });
   }
 
@@ -29,20 +35,29 @@ class Chat extends React.Component {
         {this.state.socket
          ? (
            <ChatWindow
-             chatId={this.state.chatId}
+             userId={this.state.userId}
              messages={this.state.messages}
              sendMessage={message => {
-                 this.state.socket.emit('chat-message', { text: message, sender: this.state.chatId });
+                 this.state.socket.emit('chat-message-to-server', { text: message });
              }}
            />
          )
          : (
            <form>
-             <input
-               style={{ width: '240px' }}
-               value={this.state.chatId}
-               onChange={e => this.setState({ chatId: e.target.value })}
-             />
+             <div>
+               Enter User Id:
+               <input
+                 value={this.state.userId}
+                 onChange={e => this.setState({ userId: e.target.value })}
+               />
+             </div>
+             <div>
+               Enter Room Id:
+               <input
+                 value={this.state.roomId}
+                 onChange={e => this.setState({ roomId: e.target.value })}
+               />
+             </div>
              <button onClick={e => {this.login(); e.preventDefault();}} >
                Send
              </button>
