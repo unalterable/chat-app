@@ -1,9 +1,9 @@
 import React from 'react';
-import ChatBox from './ChatBox.jsx';
+import Chat from './Chat.jsx';
 
 const Application = ({ text }) => {
   return (
-    <ChatBox />
+    <Chat />
   )
 };
 
